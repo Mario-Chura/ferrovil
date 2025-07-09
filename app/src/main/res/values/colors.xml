@@ -1,58 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Colores principales de Ferrovil - Identidad de ferretería -->
-    
-    <!-- Azul industrial (herramientas, confianza, profesionalismo) -->
-    <color name="ferrovil_primary">#2E5BBA</color>
-    <color name="ferrovil_primary_dark">#1E3F7A</color>
-    <color name="ferrovil_primary_light">#5A7FD4</color>
-    
-    <!-- Naranja herramientas (energía, construcción, acción) -->
-    <color name="ferrovil_secondary">#FF8C00</color>
-    <color name="ferrovil_secondary_dark">#CC7000</color>
-    <color name="ferrovil_secondary_light">#FFA733</color>
-    
-    <!-- Colores funcionales -->
-    
-    <!-- Verde para stock disponible y éxito -->
-    <color name="ferrovil_success">#4CAF50</color>
-    <color name="ferrovil_success_dark">#388E3C</color>
-    <color name="ferrovil_success_light">#81C784</color>
-    
-    <!-- Rojo para alertas de stock bajo y errores -->
-    <color name="ferrovil_alert">#F44336</color>
-    <color name="ferrovil_alert_dark">#D32F2F</color>
-    <color name="ferrovil_alert_light">#EF5350</color>
-    
-    <!-- Amarillo para advertencias (stock medio) -->
-    <color name="ferrovil_warning">#FF9800</color>
-    <color name="ferrovil_warning_dark">#F57C00</color>
-    <color name="ferrovil_warning_light">#FFB74D</color>
-    
-    <!-- Grises para superficies y texto -->
-    <color name="ferrovil_surface">#FAFAFA</color>
-    <color name="ferrovil_on_surface">#212121</color>
-    <color name="ferrovil_surface_variant">#F5F5F5</color>
-    
-    <!-- Colores base -->
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="transparent">#00000000</color>
-    
-    <!-- Grises neutros -->
-    <color name="gray_50">#FAFAFA</color>
-    <color name="gray_100">#F5F5F5</color>
-    <color name="gray_200">#EEEEEE</color>
-    <color name="gray_300">#E0E0E0</color>
-    <color name="gray_400">#BDBDBD</color>
-    <color name="gray_500">#9E9E9E</color>
-    <color name="gray_600">#757575</color>
-    <color name="gray_700">#616161</color>
-    <color name="gray_800">#424242</color>
-    <color name="gray_900">#212121</color>
-    
-    <!-- Colores legacy (mantener compatibilidad) -->
-    <color name="colorPrimary">@color/ferrovil_primary</color>
-    <color name="colorSecondary">@color/ferrovil_secondary</color>
-    <color name="ferrovil_error">@color/ferrovil_alert</color>
+    <color name="colorPrimary">#3989D3</color>
+    <color name="colorSecondary">#39d383</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="rosado">#B5EA8080</color>
+    <color name="rojo">#EA0C0C</color>
+    <color name="bars">#3A8AD3</color>
 </resources>

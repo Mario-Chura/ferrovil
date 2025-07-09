@@ -193,7 +193,7 @@ targetSdk 34
 
 ### 📚 Contexto Académico
 - **Curso**: Gestión de Emprendimientos de Software
-- **Institución**: Universidad Nacional de San Agustín de Arequipa (UNSA)
+- **Institución**: Universidad Nacional de San Agustín de Arequipa 
 - **Escuela**: Ingeniería de Sistemas
 - **Semestre**: 2025-I
 

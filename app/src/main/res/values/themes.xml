@@ -1,35 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme for Ferrovil -->
-    <style name="Theme.Ferrovil" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Colores principales de ferretería - Azul industrial y naranja herramientas -->
-        <item name="colorPrimary">@color/ferrovil_primary</item>
-        <item name="colorPrimaryDark">@color/ferrovil_primary_dark</item>
-        <item name="colorSecondary">@color/ferrovil_secondary</item>
+    <!-- Base application theme. -->
+    <style name="Theme.InVentas" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSecondary">@color/black</item>
-        <item name="android:statusBarColor">@color/ferrovil_primary_dark</item>
+
+        <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar">false</item>
+
         <item name="actionMenuTextColor">@color/white</item>
+
         <item name="windowActionBar">false</item>
         <item name="android:colorControlNormal">@color/white</item>
-        
-        <!-- Colores adicionales para funcionalidades específicas -->
-        <item name="colorError">@color/ferrovil_error</item>
-        <item name="colorSurface">@color/ferrovil_surface</item>
-        <item name="colorOnSurface">@color/ferrovil_on_surface</item>
-    </style>
-
-    <!-- Tema para pantallas de alerta (stock bajo) -->
-    <style name="Theme.Ferrovil.Alert" parent="Theme.Ferrovil">
-        <item name="colorPrimary">@color/ferrovil_alert</item>
-        <item name="colorPrimaryDark">@color/ferrovil_alert_dark</item>
-        <item name="android:statusBarColor">@color/ferrovil_alert_dark</item>
-    </style>
-
-    <!-- Tema para pantallas de éxito (ventas completadas) -->
-    <style name="Theme.Ferrovil.Success" parent="Theme.Ferrovil">
-        <item name="colorPrimary">@color/ferrovil_success</item>
-        <item name="colorPrimaryDark">@color/ferrovil_success_dark</item>
-        <item name="android:statusBarColor">@color/ferrovil_success_dark</item>
     </style>
 </resources>
