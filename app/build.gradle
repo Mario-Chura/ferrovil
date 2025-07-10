@@ -3,13 +3,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdk 35
 
     defaultConfig {
         applicationId 'com.teamihc.inventas'
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -26,6 +25,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    namespace 'com.teamihc.inventas'
+    buildToolsVersion '35.0.0'
 }
 
 dependencies {
