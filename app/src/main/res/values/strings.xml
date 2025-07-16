@@ -70,4 +70,7 @@
     <string name="dia_con_mas_ingreso">Mejor día en ingresos.</string>
     <string name="dia_con_menos_ingreso">Peor día en ingresos.</string>
     <string name="ganancias">Ganancias</string>
+    <string name="buscar_producto">Buscar producto...</string>
+    <string name="no_hay_resultados">No se encontraron productos</string>
+    <string name="no_hay_resultados_busqueda">No se encontraron productos que coincidan con su búsqueda</string>
 </resources>

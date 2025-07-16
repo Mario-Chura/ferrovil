@@ -29,11 +29,23 @@ public abstract class ListaProductosRVAdapter
     protected int layoutId;
     protected ArrayList<Articulo> listaArticulos;
     protected CardView cardView;
-    
+
     public ListaProductosRVAdapter(ArrayList<Articulo> listaArticulos, int layoutId)
     {
-        this.listaArticulos = listaArticulos;
+        this.listaArticulos = new ArrayList<>();
         this.layoutId = layoutId;
+        
+        // Make a defensive copy of the input list
+        if (listaArticulos != null) {
+            for (Articulo articulo : listaArticulos) {
+                if (articulo != null) {
+                    this.listaArticulos.add(articulo);
+                }
+            }
+        }
+        
+        // Enable stable IDs to help with ViewHolder recycling
+        setHasStableIds(true);
     }
     
     @NonNull
@@ -49,7 +61,12 @@ public abstract class ListaProductosRVAdapter
     @Override
     public void onBindViewHolder(@NonNull ListaProductosAdapter holder, int position)
     {
-        holder.asignarDatos(listaArticulos.get(position));
+        if (position >= 0 && position < listaArticulos.size()) {
+            Articulo articulo = listaArticulos.get(position);
+            if (articulo != null) {
+                holder.asignarDatos(articulo);
+            }
+        }
     }
     
     @Override
@@ -72,6 +89,11 @@ public abstract class ListaProductosRVAdapter
         
         public void asignarDatos(Articulo articulo)
         {
+            if (articulo == null || cardView == null) {
+                return;
+            }
+            
+            // Clear all views first to prevent showing old data
             ImageView imagenProd = (ImageView) cardView.findViewById(R.id.imagenProd);
             TextView descripcion = (TextView) cardView.findViewById(R.id.descripcion);
             TextView precioBsS = (TextView) cardView.findViewById(R.id.precioBsS);
@@ -79,15 +101,26 @@ public abstract class ListaProductosRVAdapter
             TextView costoD = (TextView) cardView.findViewById(R.id.costoD);
             TextView precioD = (TextView) cardView.findViewById(R.id.precioD);
             
+            // Clear all text views first
+            if (descripcion != null) descripcion.setText("");
+            if (precioBsS != null) precioBsS.setText("");
+            if (cantidadStock != null) cantidadStock.setText("");
+            if (costoD != null) costoD.setText("");
+            if (precioD != null) precioD.setText("");
+            if (imagenProd != null) imagenProd.setImageResource(0);
+            
+            // Now set the new data
             if (imagenProd != null)
             {
-                if (!articulo.getImagen_path().equals("")){
-                    Glide.with(view).load(articulo.getImagen_path()).into(imagenProd);
+                String imagePath = articulo.getImagen_path();
+                if (imagePath != null && !imagePath.isEmpty()){
+                    Glide.with(view).load(imagePath).into(imagenProd);
                 }
             }
             if (descripcion != null)
             {
-                descripcion.setText(articulo.getDescripcion());
+                String desc = articulo.getDescripcion();
+                descripcion.setText(desc != null ? desc : "");
             }
             if (precioBsS != null)
             {
@@ -95,7 +128,7 @@ public abstract class ListaProductosRVAdapter
             }
             if (cantidadStock != null)
             {
-                cantidadStock.setText("" + articulo.getCantidad());
+                cantidadStock.setText(String.valueOf(articulo.getCantidad()));
             }
             if (costoD != null)
             {
@@ -106,5 +139,57 @@ public abstract class ListaProductosRVAdapter
                 precioD.setText(formatearMonedaDolar(articulo.getPrecio()));
             }
         }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        // Return a unique ID for each item to help with ViewHolder recycling
+        if (position >= 0 && position < listaArticulos.size()) {
+            Articulo articulo = listaArticulos.get(position);
+            if (articulo != null && articulo.getDescripcion() != null) {
+                return articulo.getDescripcion().hashCode();
+            }
+        }
+        return RecyclerView.NO_ID;
+    }
+    
+    @Override
+    public int getItemViewType(int position) {
+        // Return a consistent view type
+        return 0;
+    }
+    
+    public void updateData(ArrayList<Articulo> newData) {
+        // Clear and update the data
+        listaArticulos.clear();
+        if (newData != null) {
+            listaArticulos.addAll(newData);
+        }
+        
+        // Force a complete refresh to avoid ViewHolder inconsistencies
+        notifyDataSetChanged();
+    }
+    
+    public void setData(ArrayList<Articulo> newData) {
+        // Create a completely new list to avoid any reference issues
+        ArrayList<Articulo> oldData = new ArrayList<>(this.listaArticulos);
+        this.listaArticulos = new ArrayList<>();
+        if (newData != null) {
+            this.listaArticulos.addAll(newData);
+        }
+        
+        // Force ViewHolder recreation by using specific notifications
+        int oldSize = oldData.size();
+        int newSize = this.listaArticulos.size();
+        
+        if (oldSize > 0) {
+            notifyItemRangeRemoved(0, oldSize);
+        }
+        if (newSize > 0) {
+            notifyItemRangeInserted(0, newSize);
+        }
+        
+        // As a fallback, also call notifyDataSetChanged
+        notifyDataSetChanged();
     }
 }
