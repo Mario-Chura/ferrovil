@@ -6,10 +6,13 @@
         android:icon="@drawable/ic_home_white_24dp"
         android:title="Inicio" />
 
+    <!-- Comentar o eliminar el item de tasas -->
+    <!--
     <item
         android:id="@+id/nav_tasas"
         android:icon="@drawable/ic_payments_white_24dp"
         android:title="Tasas" />
+    -->
 
     <item
         android:id="@+id/nav_inventario"

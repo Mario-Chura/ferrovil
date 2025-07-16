@@ -79,7 +79,7 @@ public class HistorialTasaRVAdapter extends RecyclerView.Adapter<HistorialTasaRV
                     Herramientas.FORMATO_TIEMPO_FRONT.format(tasa.getFechaHora());
             float porcentajeCambio = tasa.getPorcentajeCambio();
             
-            monto.setText(Herramientas.formatearMonedaBs(tasa.getMonto()));
+            monto.setText(Herramientas.formatearMonedaSoles(tasa.getMonto()));
             fecha.setText(fechaHora);
             porcentaje.setText(Herramientas.formatearPorcentaje(Math.abs(porcentajeCambio)));
             

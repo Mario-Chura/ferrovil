@@ -297,7 +297,7 @@ public class EstadisticasFragment extends Fragment
         gananciaT = Estadisticas.gananciaTotalSemanal(semana[0], semana[1]);
         ingresoT = Estadisticas.ingresoTotalSemanal(semana[0], semana[1]);
         Object[] objMas = Estadisticas.articuloMasVendido(semana[0], semana[1]);
-        
+
         Object[] objMenos = Estadisticas.articuloMenosVendido(semana[0], semana[1]);
         Articulo masV, menosV;
 
@@ -351,20 +351,20 @@ public class EstadisticasFragment extends Fragment
         {
             vacios();
         }
-        
-        
+
+
         if (gananciaT > 0)
         {
-            gananciaTotal.setText(Herramientas.formatearMonedaDolar(gananciaT));
+            gananciaTotal.setText(Herramientas.formatearMonedaSoles(gananciaT));
         }
         else
         {
             gananciaTotal.setText("-");
         }
-        
+
         if (ingresoT > 0)
         {
-            ingresoTotal.setText(Herramientas.formatearMonedaDolar(ingresoT));
+            ingresoTotal.setText(Herramientas.formatearMonedaSoles(ingresoT));
         }
         else
         {
@@ -401,7 +401,7 @@ public class EstadisticasFragment extends Fragment
             if (mayorIngreso > 0)
             {
                 diaMasIngresos.setText(diaMasI);
-                ingresos_diaMasIngresos.setText(Herramientas.formatearMonedaDolar(mayorIngreso));
+                ingresos_diaMasIngresos.setText(Herramientas.formatearMonedaSoles(mayorIngreso));
             }
             else
             {
@@ -445,7 +445,7 @@ public class EstadisticasFragment extends Fragment
             {
                 float menosIngreso = (float) objMenosIngresos[1];
                 diaMenosIngresos.setText(diaMenosI);
-                ingresos_diaMenosIngresos.setText(Herramientas.formatearMonedaDolar(menosIngreso));
+                ingresos_diaMenosIngresos.setText(Herramientas.formatearMonedaSoles(menosIngreso));
             }
             else
             {

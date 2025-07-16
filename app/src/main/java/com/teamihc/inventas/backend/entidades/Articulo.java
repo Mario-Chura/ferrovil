@@ -113,20 +113,15 @@ public class Articulo implements Entidad
         this.imagen_path = imagen_path;
     }
 
+    public float getPrecioSoles()
+    {
+        // Ya no necesitamos conversión de moneda, solo retornamos el precio
+        return precio;
+    }
+
     public float getPrecioBs()
     {
-        Tasa tasaDia = Tasa.obtenerTasa();
-        
-        float precioBs = 0;
-        if(tasaDia != null)
-        {
-            precioBs = precio * tasaDia.getMonto();
-        }
-        else
-        {
-            precioBs = precio;
-        }
-        return precioBs;
+        return getPrecioSoles();
     }
     
     public boolean isActivo()

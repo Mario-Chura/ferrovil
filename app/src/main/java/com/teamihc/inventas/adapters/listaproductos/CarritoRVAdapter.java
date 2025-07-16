@@ -20,6 +20,7 @@ import com.teamihc.inventas.backend.entidades.Carrito;
 import com.teamihc.inventas.dialogs.SeleccionarCantidadDialogFragment;
 
 import static com.teamihc.inventas.backend.Herramientas.formatearMonedaDolar;
+import static com.teamihc.inventas.backend.Herramientas.formatearMonedaSoles;
 import static com.teamihc.inventas.backend.Herramientas.getCompressedBitmapImage;
 import static com.teamihc.inventas.backend.Herramientas.getImageUriFromPath;
 
@@ -128,7 +129,7 @@ public class CarritoRVAdapter extends RecyclerView.Adapter<CarritoRVAdapter.List
             }
             descripcion.setText(articulo.getArticulo().getDescripcion());
             cantidadStock.setText("" + articulo.getCantidad());
-            subtotal.setText(formatearMonedaDolar(articulo.getArticulo().getPrecio() * articulo.getCantidad()));
+            subtotal.setText(formatearMonedaSoles(articulo.getArticulo().getPrecio() * articulo.getCantidad()));
         }
     }
     

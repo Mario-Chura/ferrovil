@@ -53,16 +53,17 @@
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total $"
+                    android:text="Total S/"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/totalD"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$ 263.123,50"
+                    android:text="S/ 263.123,50"
                     android:textAlignment="textEnd"
                     android:textColor="@color/black"
                     android:textSize="24sp"
@@ -79,16 +80,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="Total Bs.S."
+                    android:text="Total Soles"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/totalBsS"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:text="Bs.S 16.621.738,00"
+                    android:text="S/ 16.621.738,00"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />

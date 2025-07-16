@@ -43,6 +43,13 @@ public class Venta implements Entidad
         this.carrito = carrito;
     }
 
+    public Venta(Date fechaHora, Carrito carrito)
+    {
+        this.tasa = null; // Ya no necesitamos tasa
+        this.fechaHora = fechaHora;
+        this.carrito = carrito;
+    }
+
     //<editor-fold desc="Getters & Setters">
     public Tasa getTasa(){ return tasa; }
     public void setTasa(Tasa tasa){ this.tasa = tasa; }
@@ -63,8 +70,8 @@ public class Venta implements Entidad
         /*Se registran los datos correspondientes en la tabla de v_ventas y se genera el id_venta*/
         String query = "INSERT INTO v_ventas(id_tasa, total, fecha, hora, ganancia) VALUES (?, ?, ?, ?, ?)";
         DBOperacion op = new DBOperacion(query);
-        op.pasarParametro(tasa.obtenerId());
-        op.pasarParametro(carrito.obtenerTotalDolares());
+        op.pasarParametro(1); // ID fijo en lugar de tasa.obtenerId()
+        op.pasarParametro(carrito.obtenerTotal()); // En lugar de obtenerTotalDolares()
         op.pasarParametro(Herramientas.FORMATO_FECHA.format(fechaHora));
         op.pasarParametro(Herramientas.FORMATO_TIEMPO.format(fechaHora));
         op.pasarParametro(carrito.obtenerGanancia());
@@ -231,17 +238,23 @@ public class Venta implements Entidad
      * Método para calcular el monto total (en dólares) a pagar por los artículos que se encuentran en el carrito.
      * @return retorna el monto total a pagar (retorna 0 si el carrito está vacío).
      */
-    public float obtenerTotalDolares()
-    {
-        return carrito.obtenerTotalDolares();
-    }
-
     /**
-     * Método para calcular el monto total (en bolívares) a pagar por los artículos que se encuentran en el carrito.
+     * Método para calcular el monto total (en soles) a pagar por los artículos que se encuentran en el carrito.
      * @return retorna el monto total a pagar (retorna 0 si el carrito está vacío).
      */
+    public float obtenerTotalSoles()
+    {
+        return carrito.obtenerTotal();
+    }
+
+    // Mantener por compatibilidad pero que retorne soles:
+    public float obtenerTotalDolares()
+    {
+        return obtenerTotalSoles();
+    }
+
     public float obtenerTotalBsS()
     {
-        return carrito.obtenerTotalBsS(tasa);
+        return obtenerTotalSoles();
     }
 }

@@ -150,7 +150,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
                             android:hint="@string/costo"
-                            app:prefixText="$ ">
+                            app:prefixText="S/ ">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/costo"
@@ -166,31 +166,14 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
                             android:hint="@string/precio"
-                            app:prefixText="$ ">
+                            app:prefixText="S/ ">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/precio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="numberDecimal" />
                         </com.google.android.material.textfield.TextInputLayout>
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_marginTop="8dp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:focusable="false"
-                            android:hint="@string/equivalente"
-                            app:helperText="@string/el_precio_en_bs_se_actualiza_automaticamente"
-                            app:prefixText="Bs.S ">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/precioBs"
-                                android:enabled="false"
-                                android:focusable="false"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="numberDecimal" />
-                        </com.google.android.material.textfield.TextInputLayout>
+
 
                     </LinearLayout>
                 </LinearLayout>

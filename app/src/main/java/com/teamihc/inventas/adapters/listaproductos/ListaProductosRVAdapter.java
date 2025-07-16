@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import static com.teamihc.inventas.backend.Herramientas.formatearMonedaDolar;
 import static com.teamihc.inventas.backend.Herramientas.formatearMonedaBs;
+import static com.teamihc.inventas.backend.Herramientas.formatearMonedaSoles;
 import static com.teamihc.inventas.backend.Herramientas.getCompressedBitmapImage;
 
 public abstract class ListaProductosRVAdapter
@@ -91,7 +92,7 @@ public abstract class ListaProductosRVAdapter
             }
             if (precioBsS != null)
             {
-                precioBsS.setText(formatearMonedaBs(articulo.getPrecioBs()));
+                precioBsS.setText(formatearMonedaSoles(articulo.getPrecioBs()));
             }
             if (cantidadStock != null)
             {
@@ -99,11 +100,11 @@ public abstract class ListaProductosRVAdapter
             }
             if (costoD != null)
             {
-                costoD.setText(formatearMonedaDolar(articulo.getCosto()));
+                costoD.setText(formatearMonedaSoles(articulo.getCosto()));
             }
             if (precioD != null)
             {
-                precioD.setText(formatearMonedaDolar(articulo.getPrecio()));
+                precioD.setText(formatearMonedaSoles(articulo.getPrecio()));
             }
         }
     }

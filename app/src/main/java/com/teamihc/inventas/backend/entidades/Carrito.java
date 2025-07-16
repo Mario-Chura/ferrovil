@@ -82,9 +82,39 @@ public class Carrito
      * Método para calcular el monto total (en bolívares) a pagar por los artículos que se encuentran en el carrito.
      * @return retorna el monto total a pagar (retorna 0 si el carrito está vacío).
      */
+
+
+    // En Carrito.java, reemplaza el método obtenerTotalBsS() por obtenerTotalSoles():
+
+    /**
+     * Método para calcular el monto total (en soles) a pagar por los artículos que se encuentran en el carrito.
+     * @return retorna el monto total a pagar (retorna 0 si el carrito está vacío).
+     */
+    public float obtenerTotalSoles()
+    {
+        return obtenerTotalDolares(); // Ahora tratamos todo como soles
+    }
+
+    // Mantener por compatibilidad:
     public float obtenerTotalBsS(Tasa tasa)
     {
-        return obtenerTotalDolares() * tasa.getMonto();
+        return obtenerTotalSoles();
+    }
+
+    // También cambiar el nombre del método principal:
+    public float obtenerTotal()
+    {
+        float total = 0;
+
+        if (!carrito.isEmpty())
+        {
+            for (ArticuloPxQ a : carrito)
+            {
+                total += a.getSubTotal();
+            }
+        }
+
+        return total;
     }
 
     /**
