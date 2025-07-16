@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="32dp"
                     android:layout_marginBottom="16dp"
-                    android:text="Historial de ventas"
+                    android:text="Historial de ventas en soles"
                     android:textColor="#434343"
                     android:textSize="16sp" />
             </LinearLayout>

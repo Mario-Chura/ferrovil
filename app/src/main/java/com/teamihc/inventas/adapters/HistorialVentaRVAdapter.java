@@ -102,8 +102,8 @@ public class HistorialVentaRVAdapter extends RecyclerView.Adapter<HistorialVenta
 
             fecha.setText(Herramientas.formatearDiaFecha(venta.getFechaHora()));
             hora.setText(Herramientas.FORMATO_TIEMPO_FRONT.format(venta.getFechaHora()));
-            ventaD.setText(Herramientas.formatearMonedaDolar((monto)));
-            ventaBsS.setText(Herramientas.formatearMonedaBs(conversion));
+            ventaD.setText(Herramientas.formatearMonedaSoles((monto)));
+            ventaBsS.setText(Herramientas.formatearMonedaSoles(conversion));
             id.setText(Integer.toString(venta.obtenerId()));
             resumen.setText(resumenStr);
         }

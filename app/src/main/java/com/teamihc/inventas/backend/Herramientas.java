@@ -41,19 +41,18 @@ public class Herramientas
     public static final String FORMATO_TIEMPO_FRONT_STRING = "hh:mm a";
     public static final String FOMATO_MONEDA_STRING = "###,###,###,##0.00";
     public static final String FOMATO_PORCENTAJE_STRING = "#0.00%";
-    public static final String SIMBOLO_BS = "Bs.S";
-    public static final String SIMBOLO_D = "$";
-    
+    public static final String SIMBOLO_SOLES = "S/"; // Cambiado a soles
+
     public static SimpleDateFormat FORMATO_FECHA;
     public static SimpleDateFormat FORMATO_FECHA_FRONT;
     public static SimpleDateFormat FORMATO_TIEMPO;
     public static SimpleDateFormat FORMATO_TIEMPO_FRONT;
     public static SimpleDateFormat FORMATO_FECHATIEMPO;
-    
+
     private static DecimalFormatSymbols simbolos;
     public static DecimalFormat FOMATO_MONEDA;
     public static DecimalFormat FOMATO_PORCENTAJE;
-    
+
     public static void inicializarFormatos()
     {
         FORMATO_FECHA = new SimpleDateFormat(Herramientas.FORMATO_FECHA_STRING);
@@ -61,49 +60,56 @@ public class Herramientas
         FORMATO_TIEMPO = new SimpleDateFormat(Herramientas.FORMATO_TIEMPO_STRING);
         FORMATO_TIEMPO_FRONT = new SimpleDateFormat(Herramientas.FORMATO_TIEMPO_FRONT_STRING);
         FORMATO_FECHATIEMPO = new SimpleDateFormat(Herramientas.FORMATO_FECHA_STRING + " " + Herramientas.FORMATO_TIEMPO_STRING);
-        
+
         simbolos = new DecimalFormatSymbols();
         simbolos.setDecimalSeparator(',');
         simbolos.setGroupingSeparator('.');
-        
+
         FOMATO_MONEDA = new DecimalFormat(FOMATO_MONEDA_STRING, simbolos);
         FOMATO_PORCENTAJE = new DecimalFormat(FOMATO_PORCENTAJE_STRING, simbolos);
     }
-    
+
     public static String formatearDiaFecha(Date fecha)
     {
         String dia = new SimpleDateFormat("EEEE").format(fecha);
         return dia.substring(0,1).toUpperCase() + dia.substring(1) + ", " + Herramientas.FORMATO_FECHA_FRONT.format(fecha);
     }
-    
+
     public static String formatearMoneda(float monto)
     {
         if (monto == 0)
             return "0";
         return FOMATO_MONEDA.format(monto);
     }
-    
+
+    // Método único para formatear en soles
+    public static String formatearMonedaSoles(float monto)
+    {
+        if (monto == 0)
+            return SIMBOLO_SOLES + " 0";
+        return SIMBOLO_SOLES + " " + FOMATO_MONEDA.format(monto);
+    }
+
+    // Mantenemos estos métodos por compatibilidad pero ahora retornan soles
     public static String formatearMonedaBs(float monto)
     {
-        if (monto == 0)
-            return SIMBOLO_BS + " 0";
-        return SIMBOLO_BS + " " + FOMATO_MONEDA.format(monto);
+        return formatearMonedaSoles(monto);
     }
-    
+
     public static String formatearMonedaDolar(float monto)
     {
-        if (monto == 0)
-            return SIMBOLO_D + " 0";
-        return SIMBOLO_D + " " + FOMATO_MONEDA.format(monto);
+        return formatearMonedaSoles(monto);
     }
-    
+
     public static String formatearPorcentaje(float porcentaje)
     {
         if (porcentaje == 0)
             return "0%";
         return Herramientas.FOMATO_PORCENTAJE.format(porcentaje / 100);
     }
-    
+
+    // ... resto del código permanece igual (métodos de archivos y fotos)
+
     /**
      * Copia un archivo de la carpeta assets del apk a la carpeta /data/data del teléfono.
      *
@@ -137,7 +143,7 @@ public class Herramientas
             Log.e("tag", "I/O Exception", ex);
         }
     }
-    
+
     private static void copyFile(String filename, AssetManager assetManager)
     {
         InputStream in = null;
@@ -145,10 +151,10 @@ public class Herramientas
         try
         {
             String newFileName = "/data/data/" + BuildConfig.APPLICATION_ID + "/" + filename;
-            
+
             in = assetManager.open(filename);
             out = new FileOutputStream(newFileName);
-            
+
             byte[] buffer = new byte[1024];
             int read;
             while ((read = in.read(buffer)) != -1)
@@ -165,12 +171,12 @@ public class Herramientas
         {
             Log.e("tag", e.getMessage());
         }
-        
+
     }
-    
+
     //================================CAPTURAR FOTOS============================================
-    
-    
+
+
     public static File createImageFile(Activity activity) throws IOException
     {
         // Create an image file name
@@ -182,15 +188,15 @@ public class Herramientas
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-        
+
         // Save a file: path for use with ACTION_VIEW intents
         return image;
     }
-    
+
     public static final int PICTURE_FROM_CAMERA = 0;
     public static final int PICTURE_FROM_GALLERY = 1;
     private static String imagen_path = "";
-    
+
     public static void imagenDesdeCamara(Activity activity)
     {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -220,25 +226,25 @@ public class Herramientas
             }
         }
     }
-    
+
     public static String obtenerPathDeCamara()
     {
         return imagen_path;
     }
-    
+
     public static void imagenDesdeGaleria(Activity activity)
     {
         Intent selectPictureIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         activity.startActivityForResult(Intent.createChooser(selectPictureIntent, "Elija una opcion"), PICTURE_FROM_GALLERY);
     }
-    
+
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public static String guardarImgenDeGaleria(Activity activity, Uri uri)
     {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File filepath = new File(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "temp");
         File new_file = new File(filepath, "JPEG_" + timeStamp + "_" + System.currentTimeMillis() + ".jpg");
-        
+
         InputStream is = null;
         OutputStream os = null;
         try
@@ -269,7 +275,7 @@ public class Herramientas
         }
         return new_file.getAbsolutePath();
     }
-    
+
     static void copy(@NotNull InputStream source, OutputStream target) throws IOException
     {
         byte[] buf = new byte[8192];
@@ -280,7 +286,7 @@ public class Herramientas
         }
     }
     //================================CONSULTAR FOTOS============================================
-    
+
     public static Uri getImageUriFromPath(String photoPath)
     {
         if (photoPath.equals(""))
@@ -290,40 +296,40 @@ public class Herramientas
         File f = new File(photoPath);
         return Uri.fromFile(f);
     }
-    
+
     public static int calculateInSampleSize(int width, int heigth)
     {
         final int reqWidth = 300;
         final int reqHeight = 300;
-        
+
         // Raw height and width of image
         int inSampleSize = 1;
-        
+
         // Calculate the largest inSampleSize value that is a power of 2 and keeps both
         // height and width larger than the requested height and width.
         while ((heigth / inSampleSize) > reqHeight || (width / inSampleSize) > reqWidth)
         {
             inSampleSize *= 2;
         }
-        
+
         return inSampleSize;
     }
-    
+
     public static Bitmap getCompressedBitmapImage(String photoPath)
     {
-        
+
         if (photoPath.equals(""))
         {
             return null;
         }
-        
+
         // First decode with inJustDecodeBounds=true to check dimensions
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(photoPath, options);
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options.outWidth, options.outHeight);
-        
+
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);

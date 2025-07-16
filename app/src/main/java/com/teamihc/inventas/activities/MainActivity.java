@@ -96,11 +96,7 @@ public class MainActivity extends AppCompatActivity
                 openConsultarDiaVentas(null);
                 break;
             }
-            case R.id.top_historial_tasas:
-            {
-                openHistorialTasas(null);
-                break;
-            }
+
             case R.id.top_historial_ventas:
             {
                 openHistorialVentas(null);
@@ -111,11 +107,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
     
-    public void openHistorialTasas(View view)
-    {
-        Intent intent = new Intent(MainActivity.this, HistorialTasaActivity.class);
-        startActivity(intent);
-    }
+
     
     public void openHistorialVentas(View view)
     {
@@ -141,28 +133,7 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void openCambiarTasa(View view)
-    {
-        dialog.setContentView(R.layout.view_cambiar_tasa);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        EditText tasa = dialog.findViewById(R.id.tasa);
-        Button aceptar = dialog.findViewById((R.id.aceptar_bttn));
-        aceptar.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if (!tasa.getText().toString().contains("-") && !tasa.getText().toString().isEmpty())
-                {
-                    dialog.dismiss();
-                    Tasa t = new Tasa(Float.parseFloat(tasa.getText().toString()), Calendar.getInstance().getTime());
-                    t.registrar();
-                    getFragmentManager().beginTransaction().replace(R.id.layout_principal, new TasasFragment()).commit();
-                }
-            }
-        });
-        dialog.show();
-    }
+
     
     public void openConsultarDiaVentas(View view)
     {
@@ -218,13 +189,13 @@ public class MainActivity extends AppCompatActivity
                     fragment = v;
                     break;
                 }
-                case R.id.nav_tasas:
-                {
-                    menu.setGroupVisible(R.id.group_ventas, false);
-                    menu.setGroupVisible(R.id.group_historial_tasas, true);
-                    fragment = new TasasFragment();
-                    break;
-                }
+            /*
+            case R.id.nav_tasas:
+            {
+                // Comentar este caso completo
+                break;
+            }
+            */
                 case R.id.nav_inventario:
                 {
                     menu.setGroupVisible(R.id.group_ventas, false);
@@ -240,7 +211,7 @@ public class MainActivity extends AppCompatActivity
                     break;
                 }
             }
-    
+
             try
             {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -252,7 +223,7 @@ public class MainActivity extends AppCompatActivity
             {
                 String a = exception.getMessage();
             }
-            
+
             return true;
         }
     };

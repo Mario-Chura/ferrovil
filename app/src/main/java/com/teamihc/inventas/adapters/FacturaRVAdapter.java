@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import static com.teamihc.inventas.backend.Herramientas.formatearMonedaDolar;
+import static com.teamihc.inventas.backend.Herramientas.formatearMonedaSoles;
 import static com.teamihc.inventas.backend.Herramientas.getCompressedBitmapImage;
 
 public class FacturaRVAdapter extends RecyclerView.Adapter<FacturaRVAdapter.FacturaAdapter>
@@ -77,7 +78,7 @@ public class FacturaRVAdapter extends RecyclerView.Adapter<FacturaRVAdapter.Fact
             }
             descripcion.setText(articulo.getArticulo().getDescripcion());
             cantidadStock.setText("" + articulo.getCantidad());
-            subtotal.setText(formatearMonedaDolar(articulo.getArticulo().getPrecio() * articulo.getCantidad()));
+            subtotal.setText(formatearMonedaSoles(articulo.getArticulo().getPrecio() * articulo.getCantidad()));
         }
     }
 }

@@ -71,7 +71,7 @@ public class CarritoActivity extends AppCompatActivity
         floatingActionButton = (FloatingActionButton) findViewById(R.id.producto);
         contador = (TextView) findViewById(R.id.contador);
         carrito_cancelar_eliminar = (ImageButton) findViewById(R.id.carrito_cancelar_eliminar);
-        carrito_total_bolivares = (TextView) findViewById(R.id.carrito_total_bolivares);
+        //carrito_total_bolivares = (TextView) findViewById(R.id.carrito_total_bolivares);
         carrito_total_dolares = (TextView) findViewById(R.id.carrito_total_dolares);
         referencias_cargadas = (TextView) findViewById(R.id.referencias_cargadas);
 
@@ -258,7 +258,7 @@ public class CarritoActivity extends AppCompatActivity
         adapter = new CarritoRVAdapter(carrito);
         recyclerView.setAdapter(adapter);
     }
-    
+
     public void aceptar(View view)
     {
         if (carrito.cantidadReferencias() == 0)
@@ -267,7 +267,8 @@ public class CarritoActivity extends AppCompatActivity
             return;
         }
 
-        Venta venta = new Venta(Tasa.obtenerTasa(), new Date(), carrito);
+        // Ya no necesitamos tasa, creamos venta simple
+        Venta venta = new Venta(new Date(), carrito); // Pasar null en lugar de tasa
         venta.registrar();
         Toast.makeText(this, "Venta registrada con exito", Toast.LENGTH_SHORT).show();
         realFinish();
@@ -290,9 +291,10 @@ public class CarritoActivity extends AppCompatActivity
     public void calcularTotal()
     {
         referencias_cargadas.setText(carrito.getCarrito().size() + " referencias cargadas.");
-        carrito_total_dolares.setText(Herramientas.formatearMonedaDolar(carrito.obtenerTotalDolares()));
-        carrito_total_bolivares.setText(Herramientas.formatearMonedaBs(carrito.obtenerTotalBsS(Tasa.obtenerTasa())));
-        
+        carrito_total_dolares.setText(Herramientas.formatearMonedaSoles(carrito.obtenerTotal()));
+        // Eliminar o comentar esta línea ya que solo trabajamos con soles:
+        // carrito_total_bolivares.setText(Herramientas.formatearMonedaBs(carrito.obtenerTotalBsS(Tasa.obtenerTasa())));
+
         colocarBienvenida();
     }
     

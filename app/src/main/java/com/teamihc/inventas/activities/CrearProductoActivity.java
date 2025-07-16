@@ -44,7 +44,7 @@ public class CrearProductoActivity extends AppCompatActivity
     private TextInputEditText descripcionProdView;
     private TextInputEditText costoView;
     private TextInputEditText precioView;
-    private TextView precioBsView;
+    //private TextView precioBsView;
     private TextInputEditText codigoView;
     private TextInputEditText cantidadView;
     private boolean modoEdicion;
@@ -62,7 +62,7 @@ public class CrearProductoActivity extends AppCompatActivity
         descripcionProdView = findViewById(R.id.descripcionProd);
         costoView = findViewById(R.id.costo);
         precioView = findViewById(R.id.precio);
-        precioBsView = findViewById(R.id.precioBs);
+        //precioBsView = findViewById(R.id.precioBs);
         codigoView = findViewById(R.id.codTxt);
         cantidadView = findViewById(R.id.cantidad);
         imagenProd = findViewById(R.id.imagenProd);
@@ -93,36 +93,40 @@ public class CrearProductoActivity extends AppCompatActivity
     
     private void agregarListeners()
     {
+
         //Actualizar equivalencia Dolar/Bs
+        /*
         precioView.addTextChangedListener(new TextWatcher()
         {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after)
             {
-            
+
             }
-            
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
-            
+
             }
-            
+
             @Override
             public void afterTextChanged(Editable s)
             {
-                float precioBs = 0;
+                float precioSoles = 0;
                 try
                 {
-                    precioBs = Float.parseFloat(precioView.getText().toString());
-                    precioBs *= Tasa.obtenerTasa().getMonto();
+                    precioSoles = Float.parseFloat(precioView.getText().toString());
+                    // Ya no multiplicamos por tasa, solo mostramos el mismo valor
                 }
                 catch (Exception ex)
                 {
                 }
-                precioBsView.setText(Herramientas.formatearMoneda(precioBs));
+                precioBsView.setText(Herramientas.formatearMonedaSoles(precioSoles));
             }
         });
+
+        */
         
         //Salir de la ventana
         toolbar.setNavigationOnClickListener(new View.OnClickListener()
@@ -201,7 +205,7 @@ public class CrearProductoActivity extends AppCompatActivity
         descripcionProdView.setText(articulo.getDescripcion());
         costoView.setText(articulo.getCosto() + "");
         precioView.setText(articulo.getPrecio() + "");
-        precioBsView.setText(Herramientas.formatearMoneda(articulo.getPrecioBs()) + "");
+        //precioBsView.setText(Herramientas.formatearMonedaSoles(articulo.getPrecioSoles()));
         codigoView.setText(articulo.getCodigo());
         cantidadView.setText(articulo.getCantidad() + "");
         int height = imagenProd.getDrawable().getIntrinsicHeight();
