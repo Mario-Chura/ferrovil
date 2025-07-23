@@ -73,4 +73,17 @@
     <string name="buscar_producto">Buscar producto...</string>
     <string name="no_hay_resultados">No se encontraron productos</string>
     <string name="no_hay_resultados_busqueda">No se encontraron productos que coincidan con su búsqueda</string>
+    <!-- Categorías de productos -->
+    <string name="categoria">Categoría</string>
+    <string name="todas_categorias">Todas las categorías</string>
+    <string name="seleccione_categoria">Seleccione una categoría</string>
+
+    <string-array name="categorias_array">
+        <item>Herramientas</item>
+        <item>Materiales de construcción</item>
+        <item>Electricidad</item>
+        <item>Pinturas y acabados</item>
+        <item>Ferretería general</item>
+        <item>Seguridad</item>
+    </string-array>
 </resources>

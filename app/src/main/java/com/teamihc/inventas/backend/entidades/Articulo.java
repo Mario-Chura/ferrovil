@@ -33,6 +33,7 @@ public class Articulo implements Entidad
     private float precio;
     private int cantidad;
     private String codigo;
+    private String categoria;
     String imagen_path;
     //</editor-fold>
     
@@ -53,6 +54,7 @@ public class Articulo implements Entidad
         this.precio = precio;
         this.cantidad = cantidad;
         this.codigo = codigo;
+        this.categoria = "Ferretería general"; // Valor por defecto
     }
 
     public Articulo(String descripcion, float costo, float precio, int cantidad, String codigo, String imagen_path)
@@ -63,6 +65,18 @@ public class Articulo implements Entidad
         this.cantidad = cantidad;
         this.codigo = codigo;
         this.imagen_path = imagen_path;
+        this.categoria = "Ferretería general"; // Valor por defecto
+    }
+
+    public Articulo(String descripcion, float costo, float precio, int cantidad, String codigo, String imagen_path, String categoria)
+    {
+        this.descripcion = descripcion.trim();
+        this.costo = costo;
+        this.precio = precio;
+        this.cantidad = cantidad;
+        this.codigo = codigo;
+        this.imagen_path = imagen_path;
+        this.categoria = categoria;
     }
     
     //<editor-fold desc="Getters & Setters">
@@ -112,6 +126,13 @@ public class Articulo implements Entidad
     public void setImagen_path(String imagen_path) {
         this.imagen_path = imagen_path;
     }
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
     public float getPrecioSoles()
     {
@@ -143,8 +164,8 @@ public class Articulo implements Entidad
     public boolean registrar()
     {
         String query =
-                "INSERT INTO v_articulos (descripcion, costo_unitario, precio_venta, cantidad, codigo, imagen, estado) " +
-                        "VALUES (?,?,?,?,?,?,?);";
+                "INSERT INTO v_articulos (descripcion, costo_unitario, precio_venta, cantidad, codigo, imagen, estado, categoria) " +
+                        "VALUES (?,?,?,?,?,?,?,?);";
         DBOperacion op = new DBOperacion(query);
         op.pasarParametro(descripcion);
         op.pasarParametro(costo);
@@ -153,13 +174,14 @@ public class Articulo implements Entidad
         op.pasarParametro(codigo);
         op.pasarParametro(imagen_path);
         op.pasarParametro("activo");
+        op.pasarParametro(categoria);
 
         if (op.ejecutar() != 0){
             agregarStock(cantidad, Calendar.getInstance().getTime());
             return true;
         }
-        
-       return false;
+
+        return false;
     }
     
     @Override
@@ -193,7 +215,7 @@ public class Articulo implements Entidad
         String query = "SELECT * FROM v_articulos WHERE descripcion = ?";
         DBOperacion op = new DBOperacion(query);
         op.pasarParametro(descripcion.trim());
-        
+
         DBMatriz resultado = op.consultar();
         if (resultado.leer())
         {
@@ -202,10 +224,11 @@ public class Articulo implements Entidad
             int cantidad = (int) resultado.getValor("cantidad");
             String codigo = (String) resultado.getValor("codigo");
             String imagen_path = (String) resultado.getValor("imagen");
-            
-            return new Articulo(descripcion, costo, precio, cantidad, codigo, imagen_path);
+            String categoria = (String) resultado.getValor("categoria");
+
+            return new Articulo(descripcion, costo, precio, cantidad, codigo, imagen_path, categoria);
         }
-        
+
         return null;
     }
 
@@ -230,29 +253,36 @@ public class Articulo implements Entidad
             int cantidad = (int) resultado.getValor("cantidad");
             String codigo = (String) resultado.getValor("codigo");
             String imagen_path = (String) resultado.getValor("imagen");
+            String categoria = (String) resultado.getValor("categoria");
 
-            return new Articulo(descripcion, costo, precio, cantidad, codigo, imagen_path);
+            return new Articulo(descripcion, costo, precio, cantidad, codigo, imagen_path, categoria);
         }
 
         return null;
     }
-    
+
     public static void cargarInventarioEnLista(ArrayList<Articulo> listaArticulos)
     {
         String query = "SELECT * FROM v_articulos WHERE estado = ? ORDER BY descripcion ASC";
         DBOperacion op = new DBOperacion(query);
         op.pasarParametro("activo");
         DBMatriz resultado = op.consultar();
-        
+
         while (resultado.leer())
         {
+            String categoria = (String) resultado.getValor("categoria");
+            if (categoria == null) {
+                categoria = "Ferretería general";
+            }
+
             Articulo articulo = new Articulo(
                     (String) resultado.getValor("descripcion"),
                     (Float) resultado.getValor("costo_unitario"),
                     (Float) resultado.getValor("precio_venta"),
                     (Integer) resultado.getValor("cantidad"),
                     (String) resultado.getValor("codigo"),
-                    (String) resultado.getValor("imagen") );
+                    (String) resultado.getValor("imagen"),
+                    categoria );
             listaArticulos.add(articulo);
         }
     }
@@ -321,7 +351,7 @@ public class Articulo implements Entidad
         }
         return -1;
     }
-    
+
     public void actualizar()
     {
         //Obetener vieja foto
@@ -335,13 +365,14 @@ public class Articulo implements Entidad
         }
 
         String query = "UPDATE v_articulos SET costo_unitario = ?, precio_venta = ?, cantidad = ?, " +
-                "codigo = ?, imagen = ? WHERE descripcion = ?";
+                "codigo = ?, imagen = ?, categoria = ? WHERE descripcion = ?";
         DBOperacion op = new DBOperacion(query);
         op.pasarParametro(costo);
         op.pasarParametro(precio);
         op.pasarParametro(cantidad);
         op.pasarParametro(codigo);
         op.pasarParametro(imagen_path);
+        op.pasarParametro(categoria);
         op.pasarParametro(descripcion);
 
         op.ejecutar();

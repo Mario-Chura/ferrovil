@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.AdapterView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +37,8 @@ public class InventarioFragment extends Fragment
     private InventarioRVAdapter adapter;
     private Handler searchHandler;
     private Runnable searchRunnable;
+    private Spinner spinnerCategoriaFiltro;
+    private String categoriaSeleccionada = "Todas las categorías";
 
     @Nullable
     @Override
@@ -56,7 +61,9 @@ public class InventarioFragment extends Fragment
         
         bienvenida = view.findViewById(R.id.bienvenida_inventario);
         searchView = view.findViewById(R.id.searchView);
-
+        //AGREGADO
+        spinnerCategoriaFiltro = view.findViewById(R.id.spinnerCategoriaFiltro);
+        setupSpinnerCategoria();
         listaArticulosOriginal = new ArrayList<>();
         Articulo.cargarInventarioEnLista(listaArticulosOriginal);
 
@@ -91,6 +98,11 @@ public class InventarioFragment extends Fragment
                 searchView.setQuery("", false);
             }
             searchView.clearFocus();
+            // Resetear el spinner de categorías
+            if (spinnerCategoriaFiltro != null)
+            {
+                spinnerCategoriaFiltro.setSelection(0); // Seleccionar "Todas las categorías"
+            }
         }
 
         ColocarBienvenida();
@@ -121,6 +133,41 @@ public class InventarioFragment extends Fragment
             }
         });
     }
+    //AGREGADO
+    private void setupSpinnerCategoria()
+    {
+        // Crear array con "Todas las categorías" al inicio
+        String[] categoriasArray = getResources().getStringArray(R.array.categorias_array);
+        String[] categoriasConTodas = new String[categoriasArray.length + 1];
+        categoriasConTodas[0] = "Todas las categorías";
+        System.arraycopy(categoriasArray, 0, categoriasConTodas, 1, categoriasArray.length);
+
+        // Configurar el adapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                getActivity(),
+                android.R.layout.simple_spinner_item,
+                categoriasConTodas
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategoriaFiltro.setAdapter(adapter);
+
+        // Configurar el listener
+        spinnerCategoriaFiltro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                categoriaSeleccionada = parent.getItemAtPosition(position).toString();
+                filterProducts(searchView.getQuery().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+                categoriaSeleccionada = "Todas las categorías";
+            }
+        });
+    }
 
     private void filterProducts(String query)
     {
@@ -128,23 +175,35 @@ public class InventarioFragment extends Fragment
 
         if (query == null || query.trim().isEmpty())
         {
-            // Make a deep copy to avoid reference issues
-            for (Articulo articulo : listaArticulosOriginal) {
-                if (articulo != null) {
-                    filteredList.add(articulo);
+            // Si no hay búsqueda, filtrar solo por categoría
+            for (Articulo articulo : listaArticulosOriginal)
+            {
+                if (articulo != null)
+                {
+                    if (categoriaSeleccionada.equals("Todas las categorías") ||
+                            articulo.getCategoria().equals(categoriaSeleccionada))
+                    {
+                        filteredList.add(articulo);
+                    }
                 }
             }
         }
         else
         {
+            // Si hay búsqueda, filtrar por texto Y categoría
             String lowerCaseQuery = query.toLowerCase().trim();
             for (Articulo articulo : listaArticulosOriginal)
             {
-                if (articulo != null) {
+                if (articulo != null)
+                {
                     String descripcion = articulo.getDescripcion() != null ? articulo.getDescripcion().toLowerCase() : "";
                     String codigo = articulo.getCodigo() != null ? articulo.getCodigo().toLowerCase() : "";
 
-                    if (descripcion.contains(lowerCaseQuery) || codigo.contains(lowerCaseQuery))
+                    boolean matchesText = descripcion.contains(lowerCaseQuery) || codigo.contains(lowerCaseQuery);
+                    boolean matchesCategory = categoriaSeleccionada.equals("Todas las categorías") ||
+                            articulo.getCategoria().equals(categoriaSeleccionada);
+
+                    if (matchesText && matchesCategory)
                     {
                         filteredList.add(articulo);
                     }
@@ -155,10 +214,10 @@ public class InventarioFragment extends Fragment
         // Create a new adapter instance to avoid ViewHolder recycling issues
         adapter = new InventarioRVAdapter(filteredList, R.layout.view_info_producto);
         recyclerView.setAdapter(adapter);
-        
+
         // Scroll to top to show the filtered results
         recyclerView.scrollToPosition(0);
-        
+
         ColocarBienvenida();
     }
 

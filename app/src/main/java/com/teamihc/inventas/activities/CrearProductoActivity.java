@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,8 @@ public class CrearProductoActivity extends AppCompatActivity
     private FloatingActionButton fotoproducto_btn;
     private String imagen_path;
     private boolean foto_tomada;
+
+    private Spinner spinnerCategoria;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,7 +70,9 @@ public class CrearProductoActivity extends AppCompatActivity
         cantidadView = findViewById(R.id.cantidad);
         imagenProd = findViewById(R.id.imagenProd);
         fotoproducto_btn = findViewById(R.id.fotoproducto_btn);
-        
+        //AGREGADO
+        spinnerCategoria = findViewById(R.id.spinnerCategoria);
+
         toolbar = findViewById(R.id.crearArticuloToolBar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.articulo);
@@ -186,6 +191,7 @@ public class CrearProductoActivity extends AppCompatActivity
         codigoView.setEnabled(false);
         cantidadView.setEnabled(false);
         fotoproducto_btn.setVisibility(View.INVISIBLE);
+        spinnerCategoria.setEnabled(false);
     }
     
     private void permitirEdicion()
@@ -196,18 +202,28 @@ public class CrearProductoActivity extends AppCompatActivity
         codigoView.setEnabled(true);
         cantidadView.setEnabled(true);
         fotoproducto_btn.setVisibility(View.VISIBLE);
+        spinnerCategoria.setEnabled(true);
     }
-    
+
     private void llenarFormulario()
     {
         Articulo articulo = Articulo.obtenerInstancia(getIntent().getExtras().getString("descripcion"));
-        
+
         descripcionProdView.setText(articulo.getDescripcion());
         costoView.setText(articulo.getCosto() + "");
         precioView.setText(articulo.getPrecio() + "");
-        //precioBsView.setText(Herramientas.formatearMonedaSoles(articulo.getPrecioSoles()));
         codigoView.setText(articulo.getCodigo());
         cantidadView.setText(articulo.getCantidad() + "");
+
+        // Seleccionar la categoría correcta en el spinner
+        String[] categorias = getResources().getStringArray(R.array.categorias_array);
+        for (int i = 0; i < categorias.length; i++) {
+            if (categorias[i].equals(articulo.getCategoria())) {
+                spinnerCategoria.setSelection(i);
+                break;
+            }
+        }
+
         int height = imagenProd.getDrawable().getIntrinsicHeight();
         int width = imagenProd.getDrawable().getIntrinsicWidth();
         if (!articulo.getImagen_path().equals(""))
@@ -266,6 +282,7 @@ public class CrearProductoActivity extends AppCompatActivity
         float precio = Float.parseFloat(precioView.getText().toString());
         int cantidad = Integer.parseInt(cantidadView.getText().toString());
         String codigo = codigoView.getText().toString();
+        String categoria = spinnerCategoria.getSelectedItem().toString();
         
         //Si se tomo una foto guardar archivo temporal en la carpeta de fotos
         if (foto_tomada)
@@ -275,8 +292,8 @@ public class CrearProductoActivity extends AppCompatActivity
             temp.renameTo(definitivo);
             imagen_path = definitivo.getAbsolutePath();
         }
-        
-        Articulo articulo = new Articulo(descripcion, costo, precio, cantidad, codigo, imagen_path);
+
+        Articulo articulo = new Articulo(descripcion, costo, precio, cantidad, codigo, imagen_path, categoria);
         int cambio_stock = cantidad - cantidad_original;
         
         //si se modifico la descripcion
